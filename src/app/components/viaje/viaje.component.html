@@ -1,0 +1,66 @@
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>ORIGEN</th>
+            <th>DESTINO</th>
+            <th>COSTO</th>
+            <th>AUTO</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let viaje of viajeList">
+            <td>{{viaje.id}}</td>
+            <td>{{viaje.origen}}</td>
+            <td>{{viaje.destino}}</td>
+            <td>{{viaje.costo}}</td>
+            <td>{{viaje.auto.matricula}}</td>
+            <td><button (click)="view(viaje, ver)">Editar</button></td>
+            <td><button (click)="delete(viaje.id)">Borrar</button></td>
+        </tr>
+    </tbody>
+</table><br>
+
+<form [formGroup]="viajeForm">
+
+    <p>ORIGEN</p>
+    <input class="form-control" formControlName="origen"/>
+    <p style="color: red" *ngIf="origen.touched && origen.errors?.required">Campo obligatorio</p><br>
+
+    <p>DESTINO</p>
+    <input class="form-control" formControlName="destino">
+    <p style="color: red" *ngIf="destino.touched && destino.errors?.required">Campo obligatorio</p><br>
+
+    <p>COSTO</p>
+    <input class="form-control" formControlName="costo">
+    <p style="color: red" *ngIf="costo.touched && costo.errors?.required">Campo obligatorio</p><br>
+
+    <p>MATRÍCULA</p>
+    <select class="form-control" formControlName="auto">
+    <option *ngFor="let auto of autoList" [value]="auto.id">{{auto.matricula}}</option>
+    </select>
+    <p style="color: red" *ngIf="auto.touched && auto.errors?.required">Campo obligatorio</p><br>
+    
+    <div style="text-align: center" colspan="2"><button (click)="save()">Agregar</button></div>
+</form>
+ 
+<ng-template #ver let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title">Editar viaje</h5>
+        <button class="close" aria-label="Close" (click)="modal.dismiss()"><span aria-hidden="true">&times;</span></button>
+    </div>
+    <div class="modal-body">
+        <p>ID</p>
+        <input class="form-control" [(ngModel)]="id2" readonly /><br>
+        <p>Origen</p>
+        <input class="form-control" [(ngModel)]="origen2" ngbAutofocus/><br>
+        <p>Destino</p>
+        <input class="form-control" [(ngModel)]="destino2" ngbAutofocus/><br>
+        <p>Costo</p>
+        <input class="form-control" [(ngModel)]="costo2" ngbAutofocus/>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" (click)="modal.close()">Update</button>
+    </div>
+</ng-template>

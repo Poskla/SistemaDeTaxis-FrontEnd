@@ -1,0 +1,53 @@
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>MATRICULA</th>
+            <th>MODELO</th>
+            <th>CHOFER</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let auto of autoList">
+            <td>{{auto.id}}</td>
+            <td>{{auto.matricula}}</td>
+            <td>{{auto.modelo}}</td>
+            <td>{{auto.chofer.nombre}}</td>
+            <td><button (click)="view(auto, ver)">Editar</button></td>
+            <td><button (click)="delete(auto.id)">Borrar</button></td>
+        </tr>
+    </tbody>
+</table><br>
+
+<form [formGroup]="autoForm">
+    
+    <p>MATRICULA</p><input class="form-control" formControlName="matricula"/>
+    <p style="color: red" *ngIf="matricula.touched && matricula.errors?.required">Campo obligatorio</p>
+    
+    <p>MODELO</p><input class="form-control" formControlName="modelo"/>
+    <br>
+    <p>CHOFER</p><select class="form-control" formControlName="chofer">
+        <option *ngFor="let chofer of choferList" [value]="chofer.id">{{chofer.nombre}}</option>
+    </select>
+    <p style="color: red" *ngIf="chofer.touched && chofer.errors?.required">Campo obligatorio</p><br>
+    <div style="text-align: center" colspan="2"><button (click)="save()">Agregar</button></div>
+</form>
+
+<ng-template #ver let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title">Editar auto</h5>
+        <button class="close" aria-label="Close" (click)="modal.dismiss()"><span aria-hidden="true">&times;</span></button>
+    </div>
+    <div class="modal-body">
+        <p>ID</p>
+        <input class="form-control" [(ngModel)]="id2" readonly /><br>
+        <p>Matrícula</p>
+        <input class="form-control" [(ngModel)]="matricula2" ngbAutofocus/><br>
+        <p>Modelo</p>
+        <input class="form-control" [(ngModel)]="modelo2" ngbAutofocus/>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" (click)="modal.close()">Update</button>
+    </div>
+</ng-template>
